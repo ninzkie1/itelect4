@@ -21,7 +21,6 @@ export default function ClientDashboard() {
               <a href="#about" className="hover:text-gray-700">About Us</a>
             </div>
             <div className="flex items-center space-x-4">
-              <a href="/profile" className="hover:text-gray-700">Profile</a>
               <a href="/authentication/login" className="hover:text-gray-700">Login</a>
             </div>
           </div>
