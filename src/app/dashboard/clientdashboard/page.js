@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import Head from "next/head";
 import {
   AppBar,
@@ -87,47 +87,42 @@ export default function ClientDashboard() {
             <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: 2 }}>
               TALENTO
             </Typography>
-            <Button color="inherit" href="/">
-              Home
-            </Button>
-            <Button color="inherit" href="/">
-              POST
-            </Button>
-            <Button color="inherit" href="#about">
-              About Us
-            </Button>
-            <Button color="inherit" href="/profile">
-              Profile
-            </Button>
-            <Button color="inherit" href="/authentication/login">
-              Logout
-            </Button>
+            <Button color="inherit" href="/dashboard/clientdashboard">Home</Button>
+            <Button color="inherit" href="/dashboard/clientdashboard/Post">POST</Button>
+            <Button color="inherit" href="/dashboard/clientdashboard/category">Category</Button>
+            <Button color="inherit" href="#about">About Us</Button>
+            <Button color="inherit" href="/profile">Profile</Button>
+            <Button color="inherit" href="/authentication/login">Logout</Button>
           </Toolbar>
         </AppBar>
 
         {/* Sliding Image Carousel */}
-        <Container sx={{ py: 4 }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Book a Talent for your Event!
-          </Typography>
-          <Carousel
-            interval={2000} // 2 seconds per slide
-            indicators={false} // Hide indicators (dots)
-            navButtonsAlwaysVisible // Keep navigation buttons visible
-            animation="slide" // Smooth slide animation
-          >
-            {carouselItems.map((item, index) => (
-              <Box key={index} sx={{ position: 'relative', width: '100%', height: '400px' }}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill // New layout mode
-                  style={{ objectFit: 'cover', width: '100%', height: '100%' }} // Make the image fill the area
-                />
-              </Box>
-            ))}
-          </Carousel>
-        </Container>
+        <Container sx={{ py: 3, maxWidth: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
+  <section className="bg-gray-800 text-white py-2">
+    <div className="container mx-auto text-center">
+      <h1 className="text-4xl font-bold mb-2">Book a Talent for your Event!</h1>
+    </div>
+  </section>
+  <Carousel
+    interval={2000} // 2 seconds per slide
+    indicators={false} // Hide indicators (dots)
+    navButtonsAlwaysVisible // Keep navigation buttons visible
+    animation="slide" // Smooth slide animation
+    sx={{ width: '100%', maxWidth: '100%', height: { xs: '200px', sm: '300px', md: '400px' } }} // Ensure full width and responsive height
+  >
+    {carouselItems.map((item, index) => (
+      <Box key={index} sx={{ position: 'relative', width: '100%', height: '100%' }}>
+        <Image
+          src={item.src}
+          alt={item.alt}
+          fill // This allows the image to fill its container
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }} // Use 'cover' to fit the image properly
+        />
+      </Box>
+    ))}
+  </Carousel>
+</Container>
+
 
         {/* Floating Message Icon */}
         <Fab
@@ -199,6 +194,23 @@ export default function ClientDashboard() {
             </Box>
           </Box>
         </Drawer>
+        {/* About Section */}
+        <footer>
+        <section id="about" className="bg-gray-200 py-16">
+          <div className="container mx-auto flex items-center">
+            <div className="w-1/2 pr-8">
+              <img src="/background.png" alt="About Us" className="rounded-lg" />
+            </div>
+            <div className="w-1/2 pl-8">
+              <h2 className="text-2xl font-bold mb-4">About us</h2>
+              <p>
+                Talento is a web-based and mobile-responsive talent booking management system designed
+                to streamline the process of finding and booking performers for events.
+              </p>
+            </div>
+          </div>
+        </section>
+        </footer>
       </div>
     </>
   );
