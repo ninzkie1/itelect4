@@ -1,279 +1,148 @@
-"use client";
-import React, { useState } from "react";
-import Head from "next/head";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Container,
-  Box,
-  Fab,
-  Drawer,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  TextField,
-} from "@mui/material";
-import Image from "next/image";
-import { ChatBubbleOutline } from "@mui/icons-material";
-import Carousel from "react-material-ui-carousel";
-
-const contacts = [
-  { id: 1, name: "Kris Justin Oporto", avatar: "/User-avatar.svg.png", lastMessage: "Okay ra kaayo boss." },
-  { id: 2, name: "Jessica Drew", avatar: "/User-avatar.svg.png", lastMessage: "Please lang ko book boss. Thank you." },
+import React from 'react';
+import { Avatar, IconButton, Card, CardContent, CardMedia, AppBar, Toolbar, Typography, Button, Container, Grid, Box } from '@mui/material';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import Image from 'next/image';
+import Link from 'next/link';
+import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import PersonIcon from '@mui/icons-material/Person';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+const performers = [
+  {
+    id: 1,
+    name: "ILK",
+    talent: "Musician",
+    location: "Mandaue",
+    rating: 4.5,
+    image: "/ilk.jpg",
+    video: "/vid1.mp4",
+  },
+  {
+    id: 2,
+    name: "Oscar",
+    talent: "Singer",
+    location: "Mandaue",
+    rating: 4.0,
+    image: "/oskar.jpg",
+    video: "/vid2.mp4",
+  },
 ];
 
-const chatData = {
-  1: [
-    { text: "Okay ra kaayo boss.", sender: "Kris", time: "10:35 AM", type: "received" },
-    { text: "Pwede tika ma book sa akong event ugma?", sender: "You", time: "10:37 AM", type: "sent" },
-    { text: "Play rate nimo boss?", sender: "You", time: "10:38 AM", type: "sent" },
-    { text: "Depend pila ka oras boss.", sender: "Kris", time: "10:45 AM", type: "received" },
-  ],
-  2: [
-    { text: "Hello Jessica, can you work this weekend?", sender: "You", time: "11:00 AM", type: "sent" },
-    { text: "I’ll check my schedule.", sender: "Jessica", time: "11:05 AM", type: "received" },
-  ],
-};
-
-const carouselItems = [
-  { src: "/band.png", alt: "band" },
-  { src: "/dj.png", alt: "dj" },
-  { src: "/singer.png", alt: "singer" },
-];
-
-export default function ClientDashboard() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [selectedContact, setSelectedContact] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState("");
-  const [posts, setPosts] = useState([]);
-  const [currentPost, setCurrentPost] = useState("");
-  const [currentComment, setCurrentComment] = useState({});
-
-  const toggleChat = (open) => () => {
-    setIsChatOpen(open);
-  };
-
-  const handleSelectContact = (contactId) => {
-    setSelectedContact(contactId);
-    setMessages(chatData[contactId] || []);
-  };
-
-  const handleSendMessage = () => {
-    if (currentMessage.trim() && selectedContact) {
-      const newMessage = { text: currentMessage, sender: "You", time: "Just now", type: "sent" };
-      setMessages([...messages, newMessage]);
-      setCurrentMessage("");
-    }
-  };
-
-  const handlePostSubmit = () => {
-    if (currentPost.trim()) {
-      const newPost = { id: Date.now(), text: currentPost, comments: [] };
-      setPosts([...posts, newPost]);
-      setCurrentPost("");
-    }
-  };
-
-  const handleCommentSubmit = (postId) => {
-    if (currentComment[postId]?.trim()) {
-      const updatedPosts = posts.map((post) => {
-        if (post.id === postId) {
-          return { ...post, comments: [...post.comments, currentComment[postId]] };
-        }
-        return post;
-      });
-      setPosts(updatedPosts);
-      setCurrentComment({ ...currentComment, [postId]: "" });
-    }
-  };
-
+function TalentoAppBar() {
   return (
-    <>
-      <Head>
-        <title>TALENTO - Book a Talent for Your Event</title>
-      </Head>
-      <div>
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <Image src="/logotalentos.png" alt="Talento Logo" width={40} height={40} />
-            <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: 2 }}>
-              TALENTO
-            </Typography>
-            <Button color="inherit" href="/dashboard/clientdashboard">Client</Button>
-            <Button color="inherit" href="/dashboard/clientdashboard/Post">POST</Button>
-            <Button color="inherit" href="/dashboard/clientdashboard/category">Category</Button>
-            <Button color="inherit" href="/dashboard/clientdashboard/Applicants">Applicants</Button>
-            <Button color="inherit" href="#about">About Us</Button>
-            <Button color="inherit" href="/profile">Profile</Button>
-            <Button color="inherit" href="/authentication/login">Logout</Button>
-          </Toolbar>
-        </AppBar>
+    <AppBar position="static" sx={{ bgcolor: 'blue' }}>
+      <Toolbar>
+        <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+          <MenuIcon />
+        </IconButton>
+        <Image src="/logotalentos.png" alt="Talento Logo" width={40} height={40} />
+        <Typography variant="h6" sx={{ flexGrow: 1, ml: 2, fontWeight: 'bold', color: 'yellow' }}>
+          TALENTO
+        </Typography>
+        <Link href="/home" passHref>
+          <Button color="inherit" startIcon={<HomeIcon />} sx={{ textTransform: 'none' }}>HOME</Button>
+        </Link>
+        <Link href="/dashboard" passHref>
+          <Button color="inherit" startIcon={<DashboardIcon />} sx={{ textTransform: 'none' }}>DASHBOARD</Button>
+        </Link>
+        <Link href="/dashboard/clientdashboard/Post" passHref>
+          <Button color="inherit" startIcon={<PostAddIcon />} sx={{ textTransform: 'none' }}>POST</Button>
+        </Link>
+        <Link href="/profile" passHref>
+          <Button color="inherit" startIcon={<PersonIcon />} sx={{ textTransform: 'none' }}>PROFILE</Button>
+        </Link>
+        <Link href="/wallet" passHref>
+          <Button color="inherit" startIcon={<AccountBalanceWalletIcon />} sx={{ textTransform: 'none' }}>WALLET</Button>
+        </Link>
+        <Link href="/login" passHref>
+          <Button color="inherit" startIcon={<LogoutIcon />} sx={{ textTransform: 'none' }}>LOGOUT</Button>
+        </Link>
+      </Toolbar>
+    </AppBar>
+  );
+}
 
-        <Container sx={{ py: 3, maxWidth: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
-          <section className="bg-gray-800 text-white py-2">
-            <div className="container mx-auto text-center">
-              <h1 className="text-4xl font-bold mb-2">Book a Talent for your Event!</h1>
-            </div>
-          </section>
-          <Carousel
-            interval={2000}
-            indicators={false}
-            navButtonsAlwaysVisible
-            animation="slide"
-            sx={{ width: '100%', maxWidth: '100%', height: { xs: '200px', sm: '300px', md: '400px' } }}
-          >
-            {carouselItems.map((item, index) => (
-              <Box key={index} sx={{ position: 'relative', width: '100%', height: '100%' }}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                />
-              </Box>
-            ))}
-          </Carousel>
+export default function Home() {
+  return (
+    <div>
+      {/* App Bar */}
+      <TalentoAppBar />
 
-          {/* Post Section */}
-          <Box sx={{ my: 4 }}>
-            <Typography variant="h6" gutterBottom>
-              Create a Post
-            </Typography>
-            <TextField
-              fullWidth
-              placeholder="What's on your mind?"
-              value={currentPost}
-              onChange={(e) => setCurrentPost(e.target.value)}
-              onKeyPress={(e) => (e.key === "Enter" ? handlePostSubmit() : null)}
-              sx={{ mb: 2 }}
-            />
-            <Button variant="contained" color="primary" onClick={handlePostSubmit}>
-              Post
-            </Button>
-          </Box>
+      {/* Main Content */}
+      <Container maxWidth="lg">
+        {/* Header Section */}
+        <Box textAlign="center" my={4}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Welcome to Talento
+          </Typography>
+          <Typography variant="subtitle1">
+            Discover and book talented performers for your events. Browse through our selection of artists and find the perfect fit for your next occasion.
+          </Typography>
+          <Button variant="contained" color="primary" sx={{ mt: 4 }} className="bg-purple-700 hover:bg-purple-800">
+            Book Now!
+          </Button>
+        </Box>
 
-          {/* Posts List */}
-          <Box sx={{ mt: 4 }}>
-            <Typography variant="h6" gutterBottom>
-              Posts
-            </Typography>
-            {posts.map((post) => (
-              <Box key={post.id} sx={{ mb: 3, p: 2, border: '1px solid #ccc', borderRadius: 1 }}>
-                <Typography variant="body1">{post.text}</Typography>
-                <Box sx={{ mt: 1 }}>
-                  <TextField
-                    fullWidth
-                    placeholder="Add a comment..."
-                    value={currentComment[post.id] || ""}
-                    onChange={(e) => setCurrentComment({ ...currentComment, [post.id]: e.target.value })}
-                    onKeyPress={(e) => (e.key === "Enter" ? handleCommentSubmit(post.id) : null)}
-                    sx={{ mb: 1 }}
-                  />
-                  <Button variant="contained" color="primary" onClick={() => handleCommentSubmit(post.id)}>
-                    Comment
-                  </Button>
-                </Box>
-                {post.comments.length > 0 && (
-                  <Box sx={{ mt: 1 }}>
-                    {post.comments.map((comment, index) => (
-                      <Typography key={index} variant="body2" sx={{ color: "gray" }}>
-                        {comment}
-                      </Typography>
-                    ))}
-                  </Box>
-                )}
-              </Box>
-            ))}
-          </Box>
-        </Container>
-
-        <Fab
-          color="primary"
-          aria-label="message"
-          sx={{ position: "fixed", bottom: 16, right: 16 }}
-          onClick={toggleChat(true)}
-        >
-          <ChatBubbleOutline />
-        </Fab>
-
-        <Drawer anchor="right" open={isChatOpen} onClose={toggleChat(false)}>
-          <Box sx={{ width: 500, display: "flex", height: "100%", flexDirection: "row" }}>
-            <Box sx={{ width: "40%", bgcolor: "grey.200", p: 2, borderRight: "1px solid #ccc" }}>
-              <Typography variant="h6" gutterBottom>Contacts</Typography>
-              <List>
-                {contacts.map((contact) => (
-                  <ListItem button key={contact.id} onClick={() => handleSelectContact(contact.id)}>
-                    <ListItemAvatar>
-                      <Avatar src={                      contact.avatar} />
-                    </ListItemAvatar>
-                    <ListItemText primary={contact.name} />
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-
-            <Box sx={{ width: "60%", p: 2, display: "flex", flexDirection: "column", height: "100%" }}>
-              <Typography variant="h6" gutterBottom>
-                {selectedContact ? contacts.find((contact) => contact.id === selectedContact).name : "Select a contact"}
-              </Typography>
-              <Box sx={{ flexGrow: 1, overflowY: "auto", mb: 2 }}>
-                {messages.map((message, index) => (
-                  <Box
-                    key={index}
-                    sx={{ display: "flex", justifyContent: message.type === "sent" ? "flex-end" : "flex-start", mb: 1 }}
-                  >
-                    <Box sx={{ maxWidth: "60%", padding: 1, bgcolor: message.type === "sent" ? "#cce5ff" : "#f1f0f0", borderRadius: 2 }}>
-                      <Typography variant="body1">{message.text}</Typography>
-                      <Typography variant="caption" sx={{ display: "block", textAlign: "right", marginTop: 1 }}>
-                        {message.time}
-                      </Typography>
+        {/* Performers Section */}
+        <Box textAlign="center" my={4}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Performers
+          </Typography>
+          <Grid container spacing={4} justifyContent="center">
+            {/* Performer Cards */}
+            {performers.map((performer) => (
+              <Grid item xs={12} sm={6} md={4} key={performer.id}>
+                <Card className="w-80 shadow-lg relative">
+                  <div className="relative">
+                    <video
+                      height="200"
+                      src={performer.video}
+                      autoPlay
+                      loop
+                      muted
+                      className="w-full h-48 object-cover rounded-t-lg"
+                    />
+                    <Avatar
+                      src={performer.image}
+                      alt={performer.name}
+                      className="absolute top-2 left-2 w-16 h-16 border-2 border-white"
+                    />
+                    <IconButton className="absolute top-2 right-2 bg-white bg-opacity-70">
+                      <VolumeOffIcon />
+                    </IconButton>
+                  </div>
+                  <CardContent className="bg-gradient-to-b from-purple-300 to-transparent">
+                    <Typography variant="h5" component="div" className="font-bold text-black">
+                      {performer.name}
+                    </Typography>
+                    <Typography variant="body2" color="textPrimary" className="text-black">
+                      Talent: {performer.talent}
+                    </Typography>
+                    <Typography variant="body2" color="textPrimary" className="text-black">
+                      Location: {performer.location}
+                    </Typography>
+                    <Typography variant="body2" color="textPrimary" className="text-black">
+                      Rating: {'⭐'.repeat(Math.floor(performer.rating))}
+                    </Typography>
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-around' }}>
+                      <Button variant="outlined" color="primary">
+                        See Details
+                      </Button>
+                      <Button variant="contained" color="success">
+                        Book
+                      </Button>
                     </Box>
-                  </Box>
-                ))}
-              </Box>
-
-              {selectedContact && (
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <TextField
-                    fullWidth
-                    placeholder="Type a message..."
-                    value={currentMessage}
-                    onChange={(e) => setCurrentMessage(e.target.value)}
-                    onKeyPress={(e) => (e.key === "Enter" ? handleSendMessage() : null)}
-                    sx={{ marginRight: 2 }}
-                  />
-                  <Button variant="contained" color="primary" onClick={handleSendMessage}>
-                    Send
-                  </Button>
-                </Box>
-              )}
-            </Box>
-          </Box>
-        </Drawer>
-
-        <footer>
-          <section id="about" className="bg-gray-200 py-16">
-            <div className="container mx-auto flex items-center">
-              <div className="w-1/2 pr-8">
-                <img src="/background.png" alt="About Us" className="rounded-lg" />
-              </div>
-              <div className="w-1/2 pl-8">
-                <h2 className="text-2xl font-bold mb-4">About us</h2>
-                <p>
-                  Talento is a web-based and mobile-responsive talent booking management system designed
-                  to streamline the process of finding and booking performers for events.
-                </p>
-              </div>
-            </div>
-          </section>
-        </footer>
-      </div>
-    </>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Container>
+    </div>
   );
 }
 

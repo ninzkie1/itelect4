@@ -1,213 +1,128 @@
 "use client";
-import React, { useState } from "react"; 
+import React from "react";
 import Head from "next/head";
+import TalentoAppBar from "./Appbar/page";
 import {
-  AppBar,
-  Toolbar,
   Typography,
   Button,
   Container,
   Box,
-  Fab,
-  Drawer,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
   TextField,
+  Card,
+  CardContent,
+  CardActions,
+  Grid,
+  IconButton,
+  Avatar,
 } from "@mui/material";
-import Image from "next/image";
-import { ChatBubbleOutline } from "@mui/icons-material";
-import Carousel from 'react-material-ui-carousel'; // Import Carousel
-
-// Sample contacts
-const contacts = [
-  { id: 1, name: "Kris Justin Oporto", avatar: "/User-avatar.svg.png", lastMessage: "Okay ra kaayo boss." },
-  { id: 2, name: "Jessica Drew", avatar: "/User-avatar.svg.png", lastMessage: "Please lang ko book boss. Thank you." },
-];
-
-// Sample chat data for each contact
-const chatData = {
-  1: [
-    { text: "Okay ra kaayo boss.", sender: "Kris", time: "10:35 AM", type: "received" },
-    { text: "Pwede tika ma book sa akong event ugma?", sender: "You", time: "10:37 AM", type: "sent" },
-    { text: "Play rate nimo boss?", sender: "You", time: "10:38 AM", type: "sent" },
-    { text: "Depend pila ka oras boss.", sender: "Kris", time: "10:45 AM", type: "received" },
-  ],
-  2: [
-    { text: "Hello Jessica, can you work this weekend?", sender: "You", time: "11:00 AM", type: "sent" },
-    { text: "I’ll check my schedule.", sender: "Jessica", time: "11:05 AM", type: "received" },
-  ],
-};
-
-// Sample carousel images
-const carouselItems = [
-  { src: '/band.png', alt: 'band' },
-  { src: '/dj.png', alt: 'dj' },
-  { src: '/singer.png', alt: 'singer' },
+import { MoreVert as MoreVertIcon } from "@mui/icons-material";
+import Chat from "./Chat/page";
+const posts = [
+  {
+    id: 1,
+    user: "tes",
+    eventName: "Wedding",
+    themeName: "Rustic",
+    location: "Liloan, Yati",
+    description: "need kog singer or kanang pang wedding",
+    categories: "Singer, Musician",
+    fromTime: "18:47:00",
+    toTime: "06:48:00",
+  },
+  {
+    id: 2,
+    user: "ninzkie",
+    eventName: "Concert",
+    themeName: "Rock",
+    location: "Mandaue City, Maguikay",
+    description: "Need mig Bahista or kanang drummer lang",
+    categories: "Musician",
+    fromTime: "18:54:00",
+    toTime: "18:54:00",
+  },
+  {
+    id: 3,
+    user: "tes",
+    eventName: "Wedding",
+    themeName: "Rustic",
+    location: "Mandaue City, Ibabao-Estancia",
+    description: "ngita kog bahista or musician",
+    categories: "Musician",
+    fromTime: "20:04:00",
+    toTime: "10:04:00",
+  },
 ];
 
 export default function ClientDashboard() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [selectedContact, setSelectedContact] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState("");
-
-  // Toggle Chat Drawer
-  const toggleChat = (open) => () => {
-    setIsChatOpen(open);
-  };
-
-  // Handle contact selection to load chat
-  const handleSelectContact = (contactId) => {
-    setSelectedContact(contactId);
-    setMessages(chatData[contactId] || []); // Set messages for the selected contact
-  };
-
-  // Handle sending a message
-  const handleSendMessage = () => {
-    if (currentMessage.trim() && selectedContact) {
-      const newMessage = { text: currentMessage, sender: "You", time: "Just now", type: "sent" };
-      setMessages([...messages, newMessage]); // Add new message to current chat
-      setCurrentMessage(""); // Clear the input after sending
-    }
-  };
-
   return (
     <>
       <Head>
         <title>TALENTO - Book a Talent for Your Event</title>
       </Head>
       <div>
-        {/* Navigation */}
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <Image src="/logotalentos.png" alt="Talento Logo" width={40} height={40} />
-            <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: 2 }}>
-              TALENTO
-            </Typography>
-            <Button color="inherit" href="/dashboard/clientdashboard">Home</Button>
-            <Button color="inherit" href="/dashboard/clientdashboard/Post">POST</Button>
-            <Button color="inherit" href="/dashboard/clientdashboard/category">Category</Button>
-            <Button color="inherit" href="#about">About Us</Button>
-            <Button color="inherit" href="/profile">Profile</Button>
-            <Button color="inherit" href="/authentication/login">Logout</Button>
-          </Toolbar>
-        </AppBar>
-
-        {/* Sliding Image Carousel */}
+        <TalentoAppBar />
+        <Chat/>
         <Container sx={{ py: 4 }}>
           <Typography variant="h4" align="center" gutterBottom>
-            Book a Talent for your Event!
+            Post Your Urgent Event!
           </Typography>
-          <Carousel
-            interval={2000} // 2 seconds per slide
-            indicators={false} // Hide indicators (dots)
-            navButtonsAlwaysVisible // Keep navigation buttons visible
-            animation="slide" // Smooth slide animation
-          >
-            {carouselItems.map((item, index) => (
-              <Box key={index} sx={{ position: 'relative', width: '100%', height: '400px' }}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill // New layout mode
-                  style={{ objectFit: 'cover', width: '100%', height: '100%' }} // Make the image fill the area
-                />
-              </Box>
-            ))}
-          </Carousel>
-        </Container>
+          <Button variant="contained" color="primary" sx={{ display: "block", mx: "auto", my: 2 }}>
+            Submit a Request
+          </Button>
+          <TextField
+            variant="outlined"
+            placeholder="Search Posts"
+            fullWidth
+            sx={{ mb: 4 }}
+          />
 
-        {/* Floating Message Icon */}
-        <Fab
-          color="primary"
-          aria-label="message"
-          sx={{ position: "fixed", bottom: 16, right: 16 }}
-          onClick={toggleChat(true)}
-        >
-          <ChatBubbleOutline />
-        </Fab>
-
-        {/* Chat Drawer */}
-        <Drawer anchor="right" open={isChatOpen} onClose={toggleChat(false)}>
-          <Box sx={{ width: 500, display: "flex", height: "100%", flexDirection: "row" }}>
-            {/* Contact List */}
-            <Box sx={{ width: "40%", bgcolor: "grey.200", p: 2, borderRight: "1px solid #ccc" }}>
-              <Typography variant="h6" gutterBottom>
-                Contacts
-              </Typography>
-              <List>
-                {contacts.map((contact) => (
-                  <ListItem button key={contact.id} onClick={() => handleSelectContact(contact.id)}>
-                    <ListItemAvatar>
-                      <Avatar src={contact.avatar} />
-                    </ListItemAvatar>
-                    <ListItemText primary={contact.name} />
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-
-            {/* Chat Area */}
-            <Box sx={{ width: "60%", p: 2, display: "flex", flexDirection: "column", height: "100%" }}>
-              <Typography variant="h6" gutterBottom>
-                {selectedContact ? contacts.find((contact) => contact.id === selectedContact)?.name : "Select a contact"}
-              </Typography>
-              <Box sx={{ flexGrow: 1, overflowY: "auto", mb: 2 }}>
-                {messages.map((message, index) => (
-                  <Box
-                    key={index}
-                    sx={{ display: "flex", justifyContent: message.type === "sent" ? "flex-end" : "flex-start", mb: 1 }}
-                  >
-                    <Box sx={{ maxWidth: "60%", padding: 1, bgcolor: message.type === "sent" ? "#cce5ff" : "#f1f0f0", borderRadius: 2 }}>
-                      <Typography variant="body1">{message.text}</Typography>
-                      <Typography variant="caption" sx={{ display: "block", textAlign: "right", marginTop: 1 }}>
-                        {message.time}
-                      </Typography>
+          <Grid container spacing={4}>
+            {posts.map((post) => (
+              <Grid item xs={12} sm={6} md={4} key={post.id}>
+                <Card sx={{ borderRadius: 3 }}>
+                  <CardContent>
+                    <Box display="flex" alignItems="center" mb={2}>
+                      <Avatar sx={{ mr: 2 }} />
+                      <Typography variant="h6">{post.user}</Typography>
+                      <IconButton sx={{ ml: "auto" }}>
+                        <MoreVertIcon />
+                      </IconButton>
                     </Box>
-                  </Box>
-                ))}
-              </Box>
-
-              {/* Input Box */}
-              {selectedContact && (
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <TextField
-                    fullWidth
-                    placeholder="Type a message..."
-                    value={currentMessage}
-                    onChange={(e) => setCurrentMessage(e.target.value)}
-                    onKeyPress={(e) => (e.key === "Enter" ? handleSendMessage() : null)}
-                    sx={{ marginRight: 2 }}
-                  />
-                  <Button variant="contained" color="primary" onClick={handleSendMessage}>
-                    Send
-                  </Button>
-                </Box>
-              )}
-            </Box>
-          </Box>
-        </Drawer>
-
-        {/* About Section */}
-        <footer>
-        <section id="about" className="bg-gray-200 py-16">
-          <div className="container mx-auto flex items-center">
-            <div className="w-1/2 pr-8">
-              <img src="/background.png" alt="About Us" className="rounded-lg" />
-            </div>
-            <div className="w-1/2 pl-8">
-              <h2 className="text-2xl font-bold mb-4">About us</h2>
-              <p>
-                Talento is a web-based and mobile-responsive talent booking management system designed
-                to streamline the process of finding and booking performers for events.
-              </p>
-            </div>
-          </div>
-        </section>
-        </footer>
+                    <Typography variant="body1">
+                      <strong>Event Name:</strong> {post.eventName}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Theme Name:</strong> {post.themeName}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Location:</strong> {post.location}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Description:</strong> {post.description}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Categories:</strong> {post.categories}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>From:</strong> {post.fromTime} <strong>To:</strong> {post.toTime}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <TextField
+                      variant="outlined"
+                      placeholder="Add Comment"
+                      fullWidth
+                      sx={{ mr: 1 }}
+                    />
+                    <Button variant="contained" color="primary">
+                      Submit Comment
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
       </div>
     </>
   );
