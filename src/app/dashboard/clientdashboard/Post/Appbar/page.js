@@ -1,46 +1,50 @@
-import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Button } from '@mui/material';
-import Image from 'next/image';
-import Link from 'next/link';
-import HomeIcon from '@mui/icons-material/Home';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PostAddIcon from '@mui/icons-material/PostAdd';
-import PersonIcon from '@mui/icons-material/Person';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import LogoutIcon from '@mui/icons-material/Logout';
-import MenuIcon from '@mui/icons-material/Menu';
+"use client";
 
-export default function Appbar() {
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, TextField, Button, Container } from '@mui/material';
+import Image from 'next/image';
+
+export default function AddBook() {
+  const [performer, setPerformer] = useState(null);
+
+  useEffect(() => {
+    // Retrieve data from sessionStorage
+    if (typeof window !== "undefined") {
+      const storedPerformer = sessionStorage.getItem("selectedPerformer");
+      if (storedPerformer) {
+        setPerformer(JSON.parse(storedPerformer));
+      }
+    }
+  }, []);
+
   return (
-    <AppBar position="static" sx={{ bgcolor: 'blue' }}>
-      <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-          <MenuIcon />
-        </IconButton>
-        <Image src="/logotalentos.png" alt="Talento Logo" width={40} height={40} />
-        <Typography variant="h6" sx={{ flexGrow: 1, ml: 2, fontWeight: 'bold', color: 'yellow' }}>
-          TALENTO
-        </Typography>
-        <Link href="/dashboard/clientdashboard" passHref>
-          <Button color="inherit" startIcon={<HomeIcon />} sx={{ textTransform: 'none' }}>HOME</Button>
-        </Link>
-        <Link href="/dashboard" passHref>
-          <Button color="inherit" startIcon={<DashboardIcon />} sx={{ textTransform: 'none' }}>DASHBOARD</Button>
-        </Link>
-        <Link href="/post" passHref>
-          <Button color="inherit" startIcon={<PostAddIcon />} sx={{ textTransform: 'none' }}>POST</Button>
-        </Link>
-        <Link href="/profile" passHref>
-          <Button color="inherit" startIcon={<PersonIcon />} sx={{ textTransform: 'none' }}>PROFILE</Button>
-        </Link>
-        <Link href="/wallet" passHref>
-          <Button color="inherit" startIcon={<AccountBalanceWalletIcon />} sx={{ textTransform: 'none' }}>WALLET</Button>
-        </Link>
-        <Link href="/login" passHref>
-          <Button color="inherit" startIcon={<LogoutIcon />} sx={{ textTransform: 'none' }}>LOGOUT</Button>
-        </Link>
-      </Toolbar>
-    </AppBar>
+    <Container maxWidth="sm">
+      <Box my={4}>
+        {performer ? (
+          <>
+            <Box textAlign="center" mb={4}>
+              <Image src={performer.image} alt={performer.name} width={100} height={100} />
+              <Typography variant="h4">{performer.name}</Typography>
+              <Typography variant="body1">Talent: {performer.talent}</Typography>
+              <Typography variant="body1">Location: {performer.location}</Typography>
+              <Typography variant="body1">Rating: {'⭐'.repeat(Math.floor(performer.rating))}</Typography>
+            </Box>
+            <TextField fullWidth label="Event Name" variant="outlined" margin="normal" />
+            <TextField fullWidth label="Theme Name" variant="outlined" margin="normal" />
+            <TextField fullWidth label="Select Municipality" variant="outlined" margin="normal" />
+            <TextField fullWidth label="Select Barangay" variant="outlined" margin="normal" />
+            <TextField fullWidth label="Start Date" type="date" variant="outlined" margin="normal" InputLabelProps={{ shrink: true }} />
+            <TextField fullWidth label="Start Time" type="time" variant="outlined" margin="normal" InputLabelProps={{ shrink: true }} />
+            <TextField fullWidth label="End Time" type="time" variant="outlined" margin="normal" InputLabelProps={{ shrink: true }} />
+            <TextField fullWidth label="Customer Notes (Optional)" variant="outlined" margin="normal" multiline rows={4} />
+            <Box textAlign="center" mt={4}>
+              <Button variant="contained" color="primary">Confirm Booking</Button>
+            </Box>
+          </>
+        ) : (
+          <Typography variant="h5">No performer selected for booking.</Typography>
+        )}
+      </Box>
+    </Container>
   );
 }
-

@@ -1,129 +1,161 @@
-"use client";
-import React from "react";
-import Head from "next/head";
-import TalentoAppBar from "./Appbar/page";
-import {
-  Typography,
-  Button,
-  Container,
-  Box,
-  TextField,
-  Card,
-  CardContent,
-  CardActions,
-  Grid,
-  IconButton,
-  Avatar,
-} from "@mui/material";
-import { MoreVert as MoreVertIcon } from "@mui/icons-material";
-import Chat from "./Chat/page";
-const posts = [
+import React, { useEffect, useState } from 'react';
+import { Avatar, IconButton, Card, CardContent, Typography, Button, Container, Grid, Box } from '@mui/material';
+import { useRouter } from 'next/router';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import Image from 'next/image';
+import Link from 'next/link';
+import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import PersonIcon from '@mui/icons-material/Person';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+
+const performers = [
   {
     id: 1,
-    user: "tes",
-    eventName: "Wedding",
-    themeName: "Rustic",
-    location: "Liloan, Yati",
-    description: "need kog singer or kanang pang wedding",
-    categories: "Singer, Musician",
-    fromTime: "18:47:00",
-    toTime: "06:48:00",
+    name: "ILK",
+    talent: "Musician",
+    location: "Mandaue",
+    rating: 4.5,
+    image: "/ilk.jpg",
+    video: "/vid1.mp4",
   },
   {
     id: 2,
-    user: "ninzkie",
-    eventName: "Concert",
-    themeName: "Rock",
-    location: "Mandaue City, Maguikay",
-    description: "Need mig Bahista or kanang drummer lang",
-    categories: "Musician",
-    fromTime: "18:54:00",
-    toTime: "18:54:00",
-  },
-  {
-    id: 3,
-    user: "tes",
-    eventName: "Wedding",
-    themeName: "Rustic",
-    location: "Mandaue City, Ibabao-Estancia",
-    description: "ngita kog bahista or musician",
-    categories: "Musician",
-    fromTime: "20:04:00",
-    toTime: "10:04:00",
+    name: "Oscar",
+    talent: "Singer",
+    location: "Mandaue",
+    rating: 4.0,
+    image: "/oskar.jpg",
+    video: "/vid2.mp4",
   },
 ];
 
-export default function ClientDashboard() {
+function TalentoAppBar() {
   return (
-    <>
-      <Head>
-        <title>TALENTO - Book a Talent for Your Event</title>
-      </Head>
-      <div>
-        <TalentoAppBar />
-        <Chat/>
-        <Container sx={{ py: 4 }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Post Your Urgent Event!
-          </Typography>
-          <Button variant="contained" color="primary" sx={{ display: "block", mx: "auto", my: 2 }}>
-            Submit a Request
-          </Button>
-          <TextField
-            variant="outlined"
-            placeholder="Search Posts"
-            fullWidth
-            sx={{ mb: 4 }}
-          />
+    <AppBar position="static" sx={{ bgcolor: 'blue' }}>
+      <Toolbar>
+        <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+          <MenuIcon />
+        </IconButton>
+        <Image src="/logotalentos.png" alt="Talento Logo" width={40} height={40} />
+        <Typography variant="h6" sx={{ flexGrow: 1, ml: 2, fontWeight: 'bold', color: 'yellow' }}>
+          TALENTO
+        </Typography>
+        {/* Links for navigation */}
+        <Link href="/home" passHref>
+          <Button color="inherit" startIcon={<HomeIcon />} sx={{ textTransform: 'none' }}>HOME</Button>
+        </Link>
+        <Link href="/dashboard/clientdashboard/Applicants" passHref>
+          <Button color="inherit" startIcon={<DashboardIcon />} sx={{ textTransform: 'none' }}>DASHBOARD</Button>
+        </Link>
+        <Link href="/dashboard/clientdashboard/Post" passHref>
+          <Button color="inherit" startIcon={<PostAddIcon />} sx={{ textTransform: 'none' }}>POST</Button>
+        </Link>
+        <Link href="/profile" passHref>
+          <Button color="inherit" startIcon={<PersonIcon />} sx={{ textTransform: 'none' }}>PROFILE</Button>
+        </Link>
+        <Link href="/wallet" passHref>
+          <Button color="inherit" startIcon={<AccountBalanceWalletIcon />} sx={{ textTransform: 'none' }}>WALLET</Button>
+        </Link>
+        <Link href="/login" passHref>
+          <Button color="inherit" startIcon={<LogoutIcon />} sx={{ textTransform: 'none' }}>LOGOUT</Button>
+        </Link>
+      </Toolbar>
+    </AppBar>
+  );
+}
 
-          <Grid container spacing={4}>
-            {posts.map((post) => (
-              <Grid item xs={12} sm={6} md={4} key={post.id}>
-                <Card sx={{ borderRadius: 3 }}>
-                  <CardContent>
-                    <Box display="flex" alignItems="center" mb={2}>
-                      <Avatar sx={{ mr: 2 }} />
-                      <Typography variant="h6">{post.user}</Typography>
-                      <IconButton sx={{ ml: "auto" }}>
-                        <MoreVertIcon />
-                      </IconButton>
-                    </Box>
-                    <Typography variant="body1">
-                      <strong>Event Name:</strong> {post.eventName}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Theme Name:</strong> {post.themeName}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Location:</strong> {post.location}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Description:</strong> {post.description}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Categories:</strong> {post.categories}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>From:</strong> {post.fromTime} <strong>To:</strong> {post.toTime}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <TextField
-                      variant="outlined"
-                      placeholder="Add Comment"
-                      fullWidth
-                      sx={{ mr: 1 }}
+export default function Home() {
+  const router = useRouter();
+
+  const handleBookClick = (performer) => {
+    // Store data in sessionStorage
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("selectedPerformer", JSON.stringify(performer));
+      // Navigate to the booking page
+      router.push('/dashboard/clientdashboard/AddBook');
+    }
+  };
+
+  return (
+    <div>
+      {/* App Bar */}
+      <TalentoAppBar />
+
+      {/* Main Content */}
+      <Container maxWidth="lg">
+        {/* Header Section */}
+        <Box textAlign="center" my={4}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Welcome to Talento
+          </Typography>
+          <Typography variant="subtitle1">
+            Discover and book talented performers for your events. Browse through our selection of artists and find the perfect fit for your next occasion.
+          </Typography>
+          <Button variant="contained" color="primary" sx={{ mt: 4 }} className="bg-purple-700 hover:bg-purple-800">
+            Book Now!
+          </Button>
+        </Box>
+
+        {/* Performers Section */}
+        <Box textAlign="center" my={4}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Performers
+          </Typography>
+          <Grid container spacing={4} justifyContent="center">
+            {/* Performer Cards */}
+            {performers.map((performer) => (
+              <Grid item xs={12} sm={6} md={4} key={performer.id}>
+                <Card className="w-80 shadow-lg relative">
+                  <div className="relative">
+                    <video
+                      height="200"
+                      src={performer.video}
+                      autoPlay
+                      loop
+                      muted
+                      className="w-full h-48 object-cover rounded-t-lg"
                     />
-                    <Button variant="contained" color="primary">
-                      Submit Comment
-                    </Button>
-                  </CardActions>
+                    <Avatar
+                      src={performer.image}
+                      alt={performer.name}
+                      className="absolute top-2 left-2 w-16 h-16 border-2 border-white"
+                    />
+                    <IconButton className="absolute top-2 right-2 bg-white bg-opacity-70">
+                      <VolumeOffIcon />
+                    </IconButton>
+                  </div>
+                  <CardContent className="bg-gradient-to-b from-purple-300 to-transparent">
+                    <Typography variant="h5" component="div" className="font-bold text-black">
+                      {performer.name}
+                    </Typography>
+                    <Typography variant="body2" color="textPrimary" className="text-black">
+                      Talent: {performer.talent}
+                    </Typography>
+                    <Typography variant="body2" color="textPrimary" className="text-black">
+                      Location: {performer.location}
+                    </Typography>
+                    <Typography variant="body2" color="textPrimary" className="text-black">
+                      Rating: {'⭐'.repeat(Math.floor(performer.rating))}
+                    </Typography>
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-around' }}>
+                      <Button variant="outlined" color="primary">
+                        See Details
+                      </Button>
+                      <Button variant="contained" color="success" onClick={() => handleBookClick(performer)}>
+                        Book
+                      </Button>
+                    </Box>
+                  </CardContent>
                 </Card>
               </Grid>
             ))}
           </Grid>
-        </Container>
-      </div>
-    </>
+        </Box>
+      </Container>
+    </div>
   );
 }

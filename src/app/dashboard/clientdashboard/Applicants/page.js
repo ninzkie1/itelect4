@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import TalentoAppBar from "../Post/Appbar/page";
 import {
   Container,
   Box,
@@ -15,7 +15,7 @@ import {
   TableRow,
   Chip,
 } from "@mui/material";
-import Image from "next/image";
+
 
 export default function Applicants() {
   // Mock data for pending applicants
@@ -39,27 +39,8 @@ export default function Applicants() {
   ];
 
   return (
-    <>
-      <Head>
-        <title>Pending Applicants - TALENTO</title>
-      </Head>
-      <div>
-        {/* Navigation */}
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <Image src="/logotalentos.png" alt="Talento Logo" width={40} height={40} />
-            <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: 2 }}>
-              TALENTO
-            </Typography>
-            <Button color="inherit" href="/dashboard/clientdashboard">Home</Button>
-            <Button color="inherit" href="/dashboard/clientdashboard/Post">POST</Button>
-            <Button color="inherit" href="/dashboard/clientdashboard/category">Category</Button>
-            <Button color="inherit" href="#about">About Us</Button>
-            <Button color="inherit" href="/profile">Profile</Button>
-            <Button color="inherit" href="/authentication/login">Logout</Button>
-          </Toolbar>
-        </AppBar>
-
+   <div>
+    <TalentoAppBar/>
         <Container sx={{ py: 8 }}>
           {/* Pending Applicants Section */}
           <Box>
@@ -105,24 +86,7 @@ export default function Applicants() {
           </Box>
         </Container>
 
-        {/* About Section */}
-        <footer>
-          <section id="about" className="bg-gray-200 py-16">
-            <div className="container mx-auto flex items-center">
-              <div className="w-1/2 pr-8">
-                <img src="/background.png" alt="About Us" className="rounded-lg" />
-              </div>
-              <div className="w-1/2 pl-8">
-                <h2 className="text-2xl font-bold mb-4">About us</h2>
-                <p>
-                  Talento is a web-based and mobile-responsive talent booking management system designed
-                  to streamline the process of finding and booking performers for events.
-                </p>
-              </div>
-            </div>
-          </section>
-        </footer>
-      </div>
-    </>
+        </div>
+     
   );
 }

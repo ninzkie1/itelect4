@@ -45,7 +45,7 @@ function TalentoAppBar() {
         <Link href="/home" passHref>
           <Button color="inherit" startIcon={<HomeIcon />} sx={{ textTransform: 'none' }}>HOME</Button>
         </Link>
-        <Link href="/dashboard" passHref>
+        <Link href="/dashboard/clientdashboard/Applicants" passHref>
           <Button color="inherit" startIcon={<DashboardIcon />} sx={{ textTransform: 'none' }}>DASHBOARD</Button>
         </Link>
         <Link href="/dashboard/clientdashboard/Post" passHref>
@@ -131,7 +131,7 @@ export default function Home() {
                       <Button variant="outlined" color="primary">
                         See Details
                       </Button>
-                      <Button variant="contained" color="success">
+                      <Button href="/dashboard/clientdashboard/AddBook/ILK" variant="contained" color="success">
                         Book
                       </Button>
                     </Box>
